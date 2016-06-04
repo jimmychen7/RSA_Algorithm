@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -71,19 +72,29 @@ public class RSA {
 	    		     		   		  
 		    		  System.out.print("Message to encrypt: ");
 		    		  
-		    			  String plainText = sc.next();  	    			  
-		    			  char[] plainCharArray = plainText.toCharArray();
-		    			  
-		    			  for(int i = 0; i < plainCharArray.length; i++) {
-		    				  System.out.print((int)(Math.pow(plainCharArray[i], e) % n) + " ");		
-		    			  }	 
+						while(sc.hasNext()) {
+							String plainText = sc.next();
+							char[] plainCharArray = plainText.toCharArray();
+							
+							  
+							  for(int i = 0; i < plainCharArray.length; i++) {			    				
+								  //System.out.print(plainCharArray[i] + " ("+(int)plainCharArray[i] +" ^ e = ");  
+								  
+								  long result = (long) plainCharArray[i];
+								  result = (long) Math.pow(result, e);
+								  result = result % n;
+								  
+								  System.out.print((result) + " ");
+							  }	  		
+						}	  	 
 		    			  System.out.println();
-		    		  
+
 		    	  } else if (action.equals("decrypt")) {
-		    		  int n, d;
+		    		  BigInteger n;
+		    		  int d;
 		    		  System.out.println("Enter the public key component.");
 		    		  System.out.print("n: ");
-		    		  n = sc.nextInt();
+		    		  n = new BigInteger(sc.next());
 		    		  
 		    		  System.out.println("Enter the private key.");
 		    		  System.out.print("d: ");
@@ -92,8 +103,12 @@ public class RSA {
 		    		  System.out.println("Enter message to decrypt: ");	   
 		    		  
 		    		  while(sc.hasNext()) {
-		    			  int cipherText = sc.nextInt();  	    			  
-	    				  System.out.print((int)(Math.pow(cipherText,d) % n) + " ");		    				  
+		    			  String cipherText = sc.next();
+		    			  BigInteger result = new BigInteger(cipherText);
+		    			  result = result.pow(d);
+		    			  result = result.mod(n);
+	    			  
+		    			  System.out.print((char)result.intValue() + " ");    				  
 		    		  } 		  
 		    	  }        
 	    	  }              
